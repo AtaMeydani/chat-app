@@ -1,9 +1,13 @@
 import bcrypt from "bcryptjs";
-import { AuthenticationError, ForbiddenError } from "apollo-server";
+import { AuthenticationError, ForbiddenError } from "apollo-server-express";
 import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
+import {PubSub} from 'graphql-subscriptions'
 
+const pubsub = new PubSub()
 const prisma = new PrismaClient();
+
+const MESSAGE_ADDED = 'MESSAGE_ADDED'
 const resolvers = {
   Query: {
     users: async (_, args, { userID }) => {
@@ -80,9 +84,17 @@ const resolvers = {
           senderId: userID,
         },
       });
+
+      pubsub.publish(MESSAGE_ADDED, {messageAdded: message})
       return message;
     },
   },
+
+  Subscription: {
+    messageAdded: {
+      subscribe: () => pubsub.asyncIterator(MESSAGE_ADDED)
+    }
+  }
 };
 
 export default resolvers;

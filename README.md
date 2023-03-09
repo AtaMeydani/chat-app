@@ -33,6 +33,12 @@ npm install apollo-server
 npm install prisma
 npm install bcryptjs
 npm install jsonwebtoken
+npm install apollo-server-express
+npm insatll ws
+npm install graphql-ws 
+npm install @graphql-tools/schema
+npm install express
+npm install graphql-subscriptions
 ```
 
 #####  Adding the MySQL Software Repository
@@ -83,6 +89,7 @@ cd client/
 npm install @mui/material @emotion/react @emotion/styled 
 npm install @mui/icons-material npm i react-router-dom
 npm install @apollo/client graphql
+npm install graphql-ws 
 ```
 
 start:
