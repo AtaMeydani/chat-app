@@ -16,10 +16,10 @@ const schema = makeExecutableSchema({typeDefs, resolvers})
 const app = express();
 const httpServer = createServer(app);
 const context = ({req})=>{
-  const {authorization} =req.headers
+  const {authorization} = req.headers
   if (authorization){
-  const {userId} = jwt.verify(authorization, process.env.JWT_SECRET)
-  return {userId}
+    const {userID} = jwt.verify(authorization, process.env.JWT_SECRET)
+    return {userID}
   }
 }
 

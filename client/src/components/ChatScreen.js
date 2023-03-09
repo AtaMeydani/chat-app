@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Box, AppBar, Toolbar, Avatar, Typography, TextField } from "@mui/material";
 import MessageCard from "./MessageCard";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery, useSubscription } from "@apollo/client";
 import { GET_MESSAGES } from "../graphql/queries";
 import SendIcon from "@mui/icons-material/Send";
 import { Stack } from "@mui/system";
 import { SEND_MESSAGE } from "../graphql/mutations";
+import { MSG_SUB } from "../graphql/subscriptions";
 
 const ChatScreen = () => {
   const { id, name } = useParams();
@@ -21,20 +22,18 @@ const ChatScreen = () => {
   });
 
   const [sendMessage] = useMutation(SEND_MESSAGE, {
-    onCompleted(data) {
-      setMessages((previousMessages) => [...previousMessages, data.createMessage]);
-    },
+    // onCompleted(data) {
+    //   setMessages((previousMessages) => [...previousMessages, data.createMessage]);
+    // },
   });
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      refetch();
-      setMessages(data.messagesByUser);
-    }, 1000);
+  const { data: subData } = useSubscription(MSG_SUB, {
+    onSubscriptionData({ subscriptionData: { data } }) {
+      setMessages((previousMessages) => [...previousMessages, data.messageAdded]);
+    }
+  });
 
-    return () => clearInterval(interval);
-  }, [refetch, setMessages, data]);
-
+  if (subData) console.log(subData)
   return (
     <Box flexGrow={1}>
       <AppBar position="static" sx={{ backgroundColor: "white", boxShadow: 0 }}>

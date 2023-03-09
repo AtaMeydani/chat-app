@@ -7,7 +7,7 @@ import { useQuery } from "@apollo/client";
 import { GET_ALL_USERS } from "../graphql/queries";
 
 const SideBar = ({ setLoggedIn }) => {
-  const { loading, data, error, refetch } = useQuery(GET_ALL_USERS);
+  const { loading, data, error } = useQuery(GET_ALL_USERS);
 
   if (loading) return <Typography variant="h6">Loading Chats ...</Typography>;
   if (error) console.log(error.message);
