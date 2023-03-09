@@ -57,7 +57,8 @@ mysql_secure_installation
 ##### Create database
 ```
 sudo mysql -u root -p
-CREATE DATABASE chatapp_db
+CREATE DATABASE chatapp_db;
+exit;
 ```
 
 ##### create MySQL tabel based on the model
@@ -83,4 +84,8 @@ npm install @mui/material @emotion/react @emotion/styled
 npm install @mui/icons-material npm i react-router-dom
 npm install @apollo/client graphql
 ```
+
+start:
+```
 npm start
+```
